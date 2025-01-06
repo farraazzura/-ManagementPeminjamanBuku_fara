@@ -1,131 +1,243 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Peminjaman Buku</title>
+    <style>
+        /* Reset some default styles */
+        body, h1, table, form {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-  <head>
-      <!-- Required meta tags -->
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        /* Page Layout */
+        body {
+            background-color: #f4f7fc;
+            padding: 20px;
+        }
 
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-      <title>Daftar Produk</title>
-  </head>
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-  <body>
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
 
-      <div class="pos-f-t">
-          <div class="collapse" id="navbarToggleExternalContent">
-              <div class="bg-dark p-4">
-                  <h5 class="text-white h4">Webhozz Shop</h5>
-                  <span class="text-muted">Menjawab Kebutuhan IT Anda</span>
-              </div>
-          </div>
-          <nav class="navbar navbar-dark bg-dark">
-              <button class="navbar-toggler" type="button" data-toggle="collapse"
-                  data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-                  aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-          </nav>
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
 
-          <div class="jumbotron">
-              <center>
-                  <h1 class="display-4">Produk Berkualitas</h1>
-                  <p class="lead">Harga Pas, Produk Berkualitas</p>
-                  <hr class="my-4">
-                  <p>Belanja Mudah dan Gak Ribet</p>
-                  <a class="btn btn-primary btn-lg" href="#" role="button">Cek Produk</a>
-              </center>
-          </div>
+        tr:hover {
+            background-color: #f1f1f1;
+        }
 
-          <div class="container">
-              <div class="card" style="width: 18rem; float: left; margin: 40px;">
-                  <img src="gambar/kemeja_adj.webp" class="card-img-top" alt="Kemeja Adj">
-                  <div class="card-body">
-                      <h5 class="card-title">Kemeja ADJ</h5>
-                      <p class="card-text">Rp 75.000,-</p>
-                      <a href="#" class="btn btn-warning">Detail</a>
-                      <a href="#" class="btn btn-danger">Beli</a>
-                  </div>
-              </div>
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-              <div class="card" style="width: 18rem; float: left; margin: 40px;">
-                  <img src="gambar/kemeja_hitam_bufalo.webp" class="card-img-top" alt="Kemeja Hitam Buffalo">
-                  <div class="card-body">
-                      <h5 class="card-title">Kemeja Buffalo</h5>
-                      <p class="card-text">Rp 80.000,-</p>
-                      <a href="#" class="btn btn-warning">Detail</a>
-                      <a href="#" class="btn btn-danger">Beli</a>
-                  </div>
-              </div>
+        button:hover {
+            background-color: #45a049;
+        }
 
-              <div class="card" style="width: 18rem; float: left; margin: 40px;">
-                  <img src="gambar/kemeja_putih_hitamgaris.webp" class="card-img-top" alt="Kemeja Putih Hitam Garis">
-                  <div class="card-body">
-                      <h5 class="card-title">Kemeja Putih Garis</h5>
-                      <p class="card-text">Rp 87.000,-</p>
-                      <a href="#" class="btn btn-warning">Detail</a>
-                      <a href="#" class="btn btn-danger">Beli</a>
-                  </div>
-              </div>
+        .btn-danger {
+            background-color: #f44336;
+        }
 
-              <div class="card" style="width: 18rem; float: left; margin: 40px;">
-                  <img src="gambar/kemeja_simeo.jpg" class="card-img-top" alt="Kemeja Simeo">
-                  <div class="card-body">
-                      <h5 class="card-title">Kemeja Simeo</h5>
-                      <p class="card-text">Rp 90.000,-</p>
-                      <a href="#" class="btn btn-warning">Detail</a>
-                      <a href="#" class="btn btn-danger">Beli</a>
-                  </div>
-              </div>
+        .btn-danger:hover {
+            background-color: #e53935;
+        }
 
-              <div class="card" style="width: 18rem; float: left; margin: 40px;">
-                  <img src="gambar/putih_kerahbatik.jpg_.webp" class="card-img-top" alt="Putih Kerah Batik">
-                  <div class="card-body">
-                      <h5 class="card-title">Putih Kerah Batik</h5>
-                      <p class="card-text">Rp 75.000,-</p>
-                      <a href="#" class="btn btn-warning">Detail</a>
-                      <a href="#" class="btn btn-danger">Beli</a>
-                  </div>
-              </div>
+        /* Modal Styles */
+        #transactionModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
 
-              <div class="card" style="width: 18rem; float: left; margin: 40px;">
-                  <img src="gambar/kemeja_adj_red.webp" class="card-img-top" alt="Kemeja Adj Red">
-                  <div class="card-body">
-                      <h5 class="card-title">Kemeja ADJ Red</h5>
-                      <p class="card-text">Rp 75.000,-</p>
-                      <a href="#" class="btn btn-warning">Detail</a>
-                      <a href="#" class="btn btn-danger">Beli</a>
-                  </div>
-              </div>
+        #modalContent {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-          </div>
+        #modalContent h2 {
+            margin-top: 0;
+        }
 
-          <footer class="text-muted" style="clear: both;">
-              <hr>
-              <div class="container">
-                  <p class="float-right">
-                      <a href="#">Back to top</a>
-                  </p>
-                  <p>Copyright 2019 © Webhozz</p>
-              </div>
-          </footer>
+        .form-group {
+            margin-bottom: 15px;
+        }
 
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
 
-          <!-- Optional JavaScript -->
-          <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-              integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-              crossorigin="anonymous"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-              integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-              crossorigin="anonymous"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-              integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-              crossorigin="anonymous"></script>
-  </body>
+        .form-group button {
+            width: 100%;
+        }
 
+        /* Close Button */
+        #closeModal {
+            margin-top: 20px;
+            background-color: #f44336;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #closeModal:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard Peminjaman Buku</h1>
+
+        <!-- Pesan jika ada -->
+        @if(session('success'))
+            <p style="color: green; text-align: center;">{{ session('success') }}</p>
+        @endif
+
+        <!-- Tombol Tambah Transaksi -->
+        <button id="addTransactionBtn">Tambah Transaksi</button>
+
+        <!-- Tabel Daftar Transaksi -->
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Peminjam</th>
+                    <th>Buku</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Kembali</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($transaksis as $transaksi)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $transaksi->nama_peminjam }}</td>
+                        <td>{{ $transaksi->buku->judul }}</td>
+                        <td>{{ $transaksi->tanggal_pinjam }}</td>
+                        <td>{{ $transaksi->tanggal_kembali ?? 'Belum Kembali' }}</td>
+                        <td>{{ $transaksi->status }}</td>
+                        <td>
+                            <a href="{{ route('transaksis.show', $transaksi->id) }}">Lihat</a>
+                            <a href="{{ route('transaksis.edit', $transaksi->id) }}">Edit</a>
+                            <form action="{{ route('transaksis.destroy', $transaksi->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-danger">Hapus</button>
+                            </form>
+                            <a href="{{ route('transaksis.print', $transaksi->id) }}" target="_blank">Cetak</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal untuk tambah/edit transaksi -->
+    <div id="transaksiModal">
+        <div id="modalContent">
+            <h2>@isset($transaksi) Edit @else Tambah @endisset Transaksi</h2>
+            <form action="{{ isset($transaksi) ? route('transaksis.update', $transaksi->id) : route('transaksis.store') }}" method="POST">
+                @csrf
+                @isset($transaksi)
+                    @method('PUT')
+                @endisset
+
+                <div class="form-group">
+                    <label for="id_buku">Pilih Buku:</label>
+                    <select name="id_buku" required>
+                        @foreach($bukus as $buku)
+                            <option value="{{ $buku->id }}" {{ isset($transaksi) && $transaksi->id_buku == $buku->id ? 'selected' : '' }}>
+                                {{ $buku->judul }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama_peminjam">Nama Peminjam:</label>
+                    <input type="text" name="nama_peminjam" value="{{ old('nama_peminjam', $transaksi->nama_peminjam ?? '') }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tanggal_pinjam">Tanggal Pinjam:</label>
+                    <input type="date" name="tanggal_pinjam" value="{{ old('tanggal_pinjam', $transaksi->tanggal_pinjam ?? '') }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tanggal_kembali">Tanggal Kembali:</label>
+                    <input type="date" name="tanggal_kembali" value="{{ old('tanggal_kembali', $transaksi->tanggal_kembali ?? '') }}">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">@isset($transaksi) Perbarui @else Tambah @endisset</button>
+                </div>
+            </form>
+            <button id="closeModal">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        // Menampilkan modal tambah/edit transaksi
+        document.getElementById('addTransaksiBtn').onclick = function() {
+            document.getElementById('transaksiModal').style.display = 'flex';
+        }
+
+        // Menutup modal
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('transaksiModal').style.display = 'none';
+        }
+    </script>
+</body>
 </html>

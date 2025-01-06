@@ -8,11 +8,17 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
+     public function index()
+    {
+            $transaksis = Transaksi::all();
+            $bukus = Buku::all();
+            return view('index', compact('transaksis', 'bukus')); // Mengirim data ke view
+    }
     // Form Peminjaman
     public function create()
     {
         $bukus = Buku::where('status', 'tersedia')->get();
-        return view('transaksis.create', compact('bukus'));
+        return view('transaksi.create', compact('bukus'));
     }
 
     // Proses Peminjaman

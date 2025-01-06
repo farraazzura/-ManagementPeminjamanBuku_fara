@@ -17,10 +17,9 @@ use App\Http\Controllers\TransaksiController;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::get('/', [ProductController::class,'index']);
 Route::get('/', function () {return view('welcome');});
-Route::get('/peminjaman', [TransaksiController::class, 'create']);
-Route::post('/peminjaman', [TransaksiController::class, 'store']);
-Route::get('/pengembalian', [TransaksiController::class, 'returnForm']);
-Route::post('/peminjaman', [TransaksiController::class, 'processReturn']);
+Route::get('/transaksis', [TransaksiController::class, 'index']);
+Route::post('/transaksis', [TransaksiController::class, 'store']);
+Route::get('/transaksis', [TransaksiController::class, 'returnForm']);
+Route::post('/transaksis', [TransaksiController::class, 'processReturn']);
 Route::get('/cetak/{id}', [TransaksiController::class, 'printCard']);
