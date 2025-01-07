@@ -5,43 +5,55 @@ namespace App\Http\Controllers;
 use App\Models\Kartu_Peminjaman;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KartuPeminjamanController extends Controller
 {
-    // Tampilkan daftar kartu peminjaman
-    public function index()
-    {
-        $kartu_peminjaman = Kartu_Peminjaman::with('transaksi.buku')->get();
-        return view('kartu_peminjaman.index', compact('kartuPeminjaman'));
-    }
-
-    // Cetak kartu peminjaman
-    public function print($id)
-    {
-        $kartuPeminjaman = Kartu_Peminjaman::with('transaksi.buku')->findOrFail($id);
-        $pdf = \PDF::loadView('kartu_peminjaman.print', compact('kartuPeminjaman'));
-        return $pdf->stream('kartu_peminjaman.pdf');
-    }
-
-    // Buat kartu peminjaman baru
     public function store(Request $request)
     {
-        $request->validate([
-            'id_transaksi' => 'required|exists:transactions,id',
+        // Validasi input
+        $validated = $request->validate([
+            'id_buku' => 'required',
+            'nama_peminjam' => 'required',
+            'tanggal_pinjam' => 'required|date',
+            'tanggal_kembali' => 'required|date',
+            'status' => 'required',
+            'nomor_kartu' => 'required',
+            'judul_buku' => 'required',
         ]);
 
-        $transaksi = Transaksi::find($request->id_transaksi);
+        // Buat data transaksi
+        $transaksi = Transaksi::create([
+            'id_buku' => $validated['id_buku'],
+            'nama_peminjam' => $validated['nama_peminjam'],
+            'tanggal_pinjam' => $validated['tanggal_pinjam'],
+            'tanggal_kembali' => $validated['tanggal_kembali'],
+            'status' => $validated['status'],
+        ]);
 
-        // Buat kartu peminjaman
-        Kartu_Peminjaman::create([
+        // Tambahkan data ke kartu_peminjamen
+        KartuPeminjaman::create([
             'id_transaksi' => $transaksi->id,
-            'nomor_kartu' => 'LC-' . uniqid(),
-            'nama_peminjam' => $transaksi->nama_peminjam,
-            'judul_buku' => $transaksi->buku->judul,
-            'tanggal_pinjam' => $transaksi->tanggal_pinjam,
-            'tanggal_kembali' => $transaksi->tanggal_kembali,
+            'nomor_kartu' => $validated['nomor_kartu'],
+            'nama_peminjam' => $validated['nama_peminjam'],
+            'judul_buku' => $validated['judul_buku'],
+            'tanggal_pinjam' => $validated['tanggal_pinjam'],
+            'tanggal_kembali' => $validated['tanggal_kembali'],
         ]);
 
-        return redirect('/kartu-peminjaman')->with('success', 'Kartu peminjaman berhasil dibuat!');
+        return response()->json(['message' => 'Data berhasil ditambahkan!']);
+
     }
-}
+
+
+    public function printKartu($idTransaksi)
+    {
+        $kartu = KartuPeminjaman::where('id_transaksi', $idTransaksi)->first();
+    
+        if (!$kartu) {
+            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
+        }
+    
+        return view('print-kartu', compact('kartu'));
+    }
+}    

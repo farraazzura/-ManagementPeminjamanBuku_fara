@@ -7,15 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
-    use HasFactory;
+    protected $table = 'transaksis';
+    protected $fillable = ['id_buku', 'nama_peminjam', 'tanggal_pinjam', 'tanggal_kembali', 'status'];
 
-    protected $fillable = [
-        'id_buku',
-        'nama_peminjam',
-        'tanggal_pinjam',
-        'tanggal_kembali',
-    ];
-
+    public function kartuPeminjaman()
+    {
+        return $this->hasOne(KartuPeminjaman::class, 'id_transaksi');
+    }
     public function buku()
     {
         return $this->belongsTo(Buku::class, 'id_buku');

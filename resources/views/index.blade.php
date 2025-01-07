@@ -3,156 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Peminjaman Buku</title>
+    <title>Dashboard - Manajemen Transaksi</title>
     <style>
-        /* Reset some default styles */
-        body, h1, table, form {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
         }
-
-        /* Page Layout */
-        body {
-            background-color: #f4f7fc;
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
         h1 {
             color: #333;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
+        table th, table td {
+            padding: 10px;
             border: 1px solid #ddd;
+            text-align: center;
         }
-
-        th {
+        table th {
             background-color: #4CAF50;
             color: white;
         }
-
-        tr:hover {
-            background-color: #f1f1f1;
+        .actions button {
+            padding: 5px 10px;
+            margin: 8px;
         }
-
-        button {
-            padding: 8px 16px;
-            background-color: #4CAF50;
+        .actions .edit {
+            background-color: #ffa500;
+        }
+        .actions .delete {
+            background-color: #e74c3c;
+        }
+        .actions .print {
+            background-color: #007bff;
+        }
+        .logout {
+            text-align: right;
+        }
+        .logout button {
+            background: #e74c3c;
             color: white;
             border: none;
+            padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
+        }
+        .logout button:hover {
+            background: #c0392b;
         }
 
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .btn-danger {
-            background-color: #f44336;
-        }
-
-        .btn-danger:hover {
-            background-color: #e53935;
-        }
-
-        /* Modal Styles */
-        #transactionModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
+        /* Action Buttons (Search, Add, Logout) */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
             align-items: center;
         }
 
-        #modalContent {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 400px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .action-buttons form {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-start;
         }
 
-        #modalContent h2 {
-            margin-top: 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-
-        .form-group button {
-            width: 100%;
-        }
-
-        /* Close Button */
-        #closeModal {
-            margin-top: 20px;
-            background-color: #f44336;
+        .action-buttons button, .action-buttons input {
             padding: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .action-buttons input[type="text"] {
+            border: 1px solid #ddd;
+            flex-grow: 1;
+            margin-right: 10px; /* Menambahkan jarak antar tombol */
+        }
+
+        .action-buttons button {
+            background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
         }
 
-        #closeModal:hover {
-            background-color: #e53935;
+        .action-buttons button:hover {
+            background-color: #45a049;
         }
+
+        .add-data-button {
+            background-color: #007bff;
+        }
+
+        .add-data-button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .search-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-buttons form {
+                margin-bottom: 10px;
+            }
+
+            .action-buttons button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .action-buttons input[type="text"] {
+                width: 100%;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 60px;
+            animation: fadeIn 0.5s ease-in-out;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            background-color: #4CAF50;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 40%;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .modal-content .message {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Animation for Modal */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
     </style>
 </head>
 <body>
+    <header>
+        <h1>Dashboard - Manajemen Transaksi Buku</h1>
+    </header>
     <div class="container">
-        <h1>Dashboard Peminjaman Buku</h1>
+        <!-- Pencarian, Tambah Data dan Logout (di bawah teks Daftar Transaksi) -->
+        <h1>Daftar Transaksi</h1>
+        <div class="action-buttons">
+            <!-- Pencarian -->
+            <form action="{{ route('transaksis.index') }}" method="GET" class="search-form">
+                <input type="text" name="search" placeholder="Cari Transaksi... (Nama Peminjam / Judul Buku)" value="{{ request('search') }}">
+                <button type="submit">Cari</button>
+            </form>
 
-        <!-- Pesan jika ada -->
-        @if(session('success'))
-            <p style="color: green; text-align: center;">{{ session('success') }}</p>
-        @endif
+            <!-- Tambah Data -->
+            <a href="{{ route('transaksis.create') }}">
+                <button class="add-data-button">Tambah Data</button>
+            </a>
 
-        <!-- Tombol Tambah Transaksi -->
-        <button id="addTransactionBtn">Tambah Transaksi</button>
+            <!-- Logout -->
+            <div class="logout">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
 
-        <!-- Tabel Daftar Transaksi -->
+        <!-- Tabel Transaksi -->
         <table>
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Judul Buku</th>
                     <th>Nama Peminjam</th>
-                    <th>Buku</th>
                     <th>Tanggal Pinjam</th>
                     <th>Tanggal Kembali</th>
                     <th>Status</th>
@@ -160,84 +242,57 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($transaksis as $transaksi)
+                @forelse($transaksis as $key => $transaksi)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $transaksi->nama_peminjam }}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td>{{ $transaksi->buku->judul }}</td>
+                        <td>{{ $transaksi->nama_peminjam }}</td>
                         <td>{{ $transaksi->tanggal_pinjam }}</td>
-                        <td>{{ $transaksi->tanggal_kembali ?? 'Belum Kembali' }}</td>
+                        <td>{{ $transaksi->tanggal_kembali ?? '-' }}</td>
                         <td>{{ $transaksi->status }}</td>
-                        <td>
-                            <a href="{{ route('transaksis.show', $transaksi->id) }}">Lihat</a>
-                            <a href="{{ route('transaksis.edit', $transaksi->id) }}">Edit</a>
+                        <td class="actions">
+                            <a href="{{ route('transaksis.edit', $transaksi->id) }}"><button class="edit">Edit</button></a>
                             <form action="{{ route('transaksis.destroy', $transaksi->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-danger">Hapus</button>
+                                <button type="submit" class="delete" onclick="return confirm('Yakin ingin menghapus transaksi ini?')">Hapus</button>
                             </form>
-                            <a href="{{ route('transaksis.print', $transaksi->id) }}" target="_blank">Cetak</a>
+                            <a href="{{ route('transaksis.print', $transaksi->id) }}"><button class="print">Cetak</button></a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7">Tidak ada transaksi</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
+
     </div>
 
-    <!-- Modal untuk tambah/edit transaksi -->
-    <div id="transaksiModal">
-        <div id="modalContent">
-            <h2>@isset($transaksi) Edit @else Tambah @endisset Transaksi</h2>
-            <form action="{{ isset($transaksi) ? route('transaksis.update', $transaksi->id) : route('transaksis.store') }}" method="POST">
-                @csrf
-                @isset($transaksi)
-                    @method('PUT')
-                @endisset
-
-                <div class="form-group">
-                    <label for="id_buku">Pilih Buku:</label>
-                    <select name="id_buku" required>
-                        @foreach($bukus as $buku)
-                            <option value="{{ $buku->id }}" {{ isset($transaksi) && $transaksi->id_buku == $buku->id ? 'selected' : '' }}>
-                                {{ $buku->judul }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="nama_peminjam">Nama Peminjam:</label>
-                    <input type="text" name="nama_peminjam" value="{{ old('nama_peminjam', $transaksi->nama_peminjam ?? '') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="tanggal_pinjam">Tanggal Pinjam:</label>
-                    <input type="date" name="tanggal_pinjam" value="{{ old('tanggal_pinjam', $transaksi->tanggal_pinjam ?? '') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="tanggal_kembali">Tanggal Kembali:</label>
-                    <input type="date" name="tanggal_kembali" value="{{ old('tanggal_kembali', $transaksi->tanggal_kembali ?? '') }}">
-                </div>
-
-                <div class="form-group">
-                    <button type="submit">@isset($transaksi) Perbarui @else Tambah @endisset</button>
-                </div>
-            </form>
-            <button id="closeModal">Tutup</button>
+    <!-- Modal for Success/Error message -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <h2>Berhasil!</h2>
+            <div class="message"></div>
         </div>
     </div>
 
     <script>
-        // Menampilkan modal tambah/edit transaksi
-        document.getElementById('addTransaksiBtn').onclick = function() {
-            document.getElementById('transaksiModal').style.display = 'flex';
-        }
+        // Show success/error message in a modal
+        @if(session('success'))
+            document.querySelector('.message').textContent = "{{ session('success') }}";
+            document.getElementById('messageModal').style.display = 'block';
+        @elseif(session('error'))
+            document.querySelector('.message').textContent = "{{ session('error') }}";
+            document.getElementById('messageModal').style.display = 'block';
+        @endif
 
-        // Menutup modal
-        document.getElementById('closeModal').onclick = function() {
-            document.getElementById('transaksiModal').style.display = 'none';
+        // Close the modal when the user clicks anywhere inside the modal
+        document.getElementById('messageModal').onclick = function() {
+            document.getElementById('messageModal').style.display = 'none';
         }
     </script>
+
 </body>
 </html>
