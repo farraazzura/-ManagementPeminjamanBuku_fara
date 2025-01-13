@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
-            return redirect()->route('dashboard');
+            return redirect()->route('transaksis.index');
         }
 
         return redirect()->route('login.form')->with('error', 'Username atau password salah.');

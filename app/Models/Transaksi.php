@@ -10,9 +10,9 @@ class Transaksi extends Model
     protected $table = 'transaksis';
     protected $fillable = ['id_buku', 'nama_peminjam', 'tanggal_pinjam', 'tanggal_kembali', 'status'];
 
-    public function kartuPeminjaman()
+    public function kartu_Peminjaman()
     {
-        return $this->hasOne(KartuPeminjaman::class, 'id_transaksi');
+        return $this->hasOne(Kartu_Peminjaman::class, 'id_transaksi');
     }
     public function buku()
     {

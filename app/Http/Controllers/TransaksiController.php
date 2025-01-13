@@ -102,8 +102,7 @@ class TransaksiController extends Controller
             'tanggal_pinjam' => 'required|date',
             'tanggal_kembali' => 'nullable|date',
             'status' => 'required|in:dipinjam,dikembalikan',
-        ]);             
-        dd($validasi);
+        ]);        
         // Cari transaksi berdasarkan ID
         $transaksi = Transaksi::findOrFail($id);
 
@@ -131,6 +130,51 @@ class TransaksiController extends Controller
         $transaksi->delete();
 
         return redirect()->route('transaksis.index')->with('success', 'Transaksi berhasil dihapus.');
+    }
+
+    public function pinjamBuku($bukuId, $userId)
+    {
+        $buku = Buku::findOrFail($bukuId);
+
+        if ($buku->status === 'dipinjam') {
+        return response()->json(['message' => 'Buku sedang dipinjam'], 400);
+    }
+
+    // Buat transaksi peminjaman
+    Transaksi::create([
+        'buku_id' => $bukuId,
+        'user_id' => $userId,
+        'status_transaksi' => 'dipinjam',
+    ]);
+
+    // Ubah status buku
+    $buku->update(['status' => 'dipinjam']);
+
+    return response()->json(['message' => 'Buku berhasil dipinjam']);
+    }
+
+    public function kembalikanBuku($bukuId)
+{
+    $buku = Buku::findOrFail($bukuId);
+
+    if ($buku->status === 'tersedia') {
+        return response()->json(['message' => 'Buku sudah tersedia'], 400);
+    }
+
+    // Update status transaksi terakhir menjadi selesai
+    $transaksi = Transaksi::where('buku_id', $bukuId)
+        ->where('status_transaksi', 'dipinjam')
+        ->latest()
+        ->first();
+
+    if ($transaksi) {
+        $transaksi->update(['status_transaksi' => 'dikembalikan']);
+    }
+
+    // Ubah status buku
+    $buku->update(['status' => 'tersedia']);
+
+    return response()->json(['message' => 'Buku berhasil dikembalikan']);
     }
 
     /**

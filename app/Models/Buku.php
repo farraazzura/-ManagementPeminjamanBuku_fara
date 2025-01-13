@@ -18,4 +18,9 @@ class Buku extends Model
         'lokasi_rak',
         'status',
     ];
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'id_buku');
+    }
 }

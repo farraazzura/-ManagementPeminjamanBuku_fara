@@ -24,8 +24,11 @@ Route::get('/', function () {return view('welcome');});
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form'); // Menampilkan form login
 Route::post('/login', [AuthController::class, 'login'])->name('login'); // Proses login
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::middleware(['auth'])->group(function () {
     Route::resource('transaksis', TransaksiController::class);
+    Route::get('/dashboard', [TransaksiController::class, 'index'])->name('dashboard');
     Route::get('transaksis/print/{id}', [TransaksiController::class, 'print'])->name('transaksis.print');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // Logout

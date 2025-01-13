@@ -130,7 +130,17 @@
                 <input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali', $transaksi->tanggal_kembali) }}">
             </div>
 
-            <button type="submit">Update Transaksi</button>
+
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select name="status" id="status" required>
+                    <option value="" disabled>-- Pilih Status --</option>
+                    <option value="dipinjam" @if(old('status', $transaksi->status) == 'dipinjam') selected @endif>Dipinjam</option>
+                    <option value="dikembalikan" @if(old('status', $transaksi->status) == 'dikembalikan') selected @endif>Dikembalikan</option>
+                </select>
+            </div>
+
+            <button type="submit">Edit Transaksi</button>
         </form>
             <a href="{{ route('transaksis.index') }}">
             

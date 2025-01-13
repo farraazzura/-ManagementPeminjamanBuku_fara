@@ -74,48 +74,49 @@
 
         /* Action Buttons (Search, Add, Logout) */
         .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            align-items: center;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; /* Menambahkan jarak antar elemen */
+    margin-bottom: 20px;
+}
 
-        .action-buttons form {
-            flex-grow: 1;
-            display: flex;
-            justify-content: flex-start;
-        }
+.action-buttons form {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+}
 
-        .action-buttons button, .action-buttons input {
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 16px;
-        }
+.action-buttons input[type="text"] {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
 
-        .action-buttons input[type="text"] {
-            border: 1px solid #ddd;
-            flex-grow: 1;
-            margin-right: 10px; /* Menambahkan jarak antar tombol */
-        }
+.action-buttons button {
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 
-        .action-buttons button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+.action-buttons button:hover {
+    background-color: #45a049;
+}
 
-        .action-buttons button:hover {
-            background-color: #45a049;
-        }
+.add-data-button {
+    background-color: #007bff;
+}
 
-        .add-data-button {
-            background-color: #007bff;
-        }
+.add-data-button:hover {
+    background-color: #0056b3;
+}
 
-        .add-data-button:hover {
-            background-color: #0056b3;
-        }
 
         .search-form button {
             background-color: #4CAF50;
@@ -220,6 +221,7 @@
             </a>
 
             <!-- Logout -->
+            <form>
             <div class="logout">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
