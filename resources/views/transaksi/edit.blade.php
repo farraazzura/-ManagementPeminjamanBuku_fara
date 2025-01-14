@@ -60,7 +60,7 @@
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #4c1c62;
             color: white;
             padding: 14px;
             font-size: 16px;
@@ -72,16 +72,16 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #4c1c62;
         }
 
         .cancel-btn {
-            background-color: #f44336;
+            background-color: #9486a6;
             margin-top: 10px;
         }
 
         .cancel-btn:hover {
-            background-color: #e53935;
+            background-color: #8c7ca1;
         }
 
         /* Mobile responsiveness */

@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Manajemen Transaksi</title>
+    <title>Dashboard - Manajemen Peminjaman</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
+            background-color: #f6f4ef;
             margin: 0;
             padding: 0;
         }
         header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
+            background-color: #4c1c62;
+            color: #b1aabf;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
             text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .container {
             max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
-            background: white;
+            background: #ccc7d8;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #333;
+            color: #ebe8ec;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #7b618b;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -41,7 +50,7 @@
             text-align: center;
         }
         table th {
-            background-color: #4CAF50;
+            background-color: #4c1c62;
             color: white;
         }
         .actions button {
@@ -55,21 +64,20 @@
             background-color: #e74c3c;
         }
         .actions .print {
-            background-color: #007bff;
+            background-color: #9283ab;
         }
         .logout {
             text-align: right;
         }
         .logout button {
-            background: #e74c3c;
-            color: white;
+            background: #5411ab
             border: none;
             padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
         }
         .logout button:hover {
-            background: #c0392b;
+            background: #5411ab;
         }
 
         /* Action Buttons (Search, Add, Logout) */
@@ -92,21 +100,21 @@
     margin-right: 10px;
     padding: 10px;
     border-radius: 4px;
-    border: 1px solid #ddd;
+    border: 1px solid #4c1c62;
 }
 
 .action-buttons button {
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 16px;
-    background-color: #4CAF50;
+    background-color: #4c1c62;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .action-buttons button:hover {
-    background-color: #45a049;
+    background-color: #4c1c62;
 }
 
 .add-data-button {
@@ -119,7 +127,7 @@
 
 
         .search-form button {
-            background-color: #4CAF50;
+            background-color: #4c1c62;
             color: white;
             border: none;
             padding: 10px;
@@ -129,7 +137,7 @@
         }
 
         .search-form button:hover {
-            background-color: #45a049;
+            background-color: #4c1c62;
         }
 
         /* Responsive Design */
@@ -169,7 +177,7 @@
         }
 
         .modal-content {
-            background-color: #4CAF50;
+            background-color: #4c1c62;
             margin: 5% auto;
             padding: 30px;
             border-radius: 8px;
@@ -207,7 +215,7 @@
     </header>
     <div class="container">
         <!-- Pencarian, Tambah Data dan Logout (di bawah teks Daftar Transaksi) -->
-        <h1>Daftar Transaksi</h1>
+        <h2>Daftar Transaksi</h2>
         <div class="action-buttons">
             <!-- Pencarian -->
             <form action="{{ route('transaksis.index') }}" method="GET" class="search-form">

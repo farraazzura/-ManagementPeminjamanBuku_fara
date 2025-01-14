@@ -12,10 +12,14 @@
             padding: 0;
         }
         header {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #4c1c62;
+            color: #b1aabf;
+            max-width: 800px;
+            margin: 15px auto;
             padding: 15px;
             text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .container {
             max-width: 800px;
@@ -26,7 +30,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #333;
+            color: #ebe8ec;
             font-size: 24px;
             margin-bottom: 20px;
             text-align: center;
@@ -49,13 +53,13 @@
             box-sizing: border-box;
         }
         input[type="text"]:focus, input[type="date"]:focus, select:focus {
-            border-color: #4CAF50;
+            border-color: #4c1c62;
             outline: none;
         }
         button {
             width: 100%;
             padding: 14px;
-            background-color: #4CAF50;
+            background-color: #4c1c62;
             color: white;
             font-size: 16px;
             border: none;
@@ -64,7 +68,7 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #4c1c62;
         }
         .alert {
             text-align: center;
@@ -75,8 +79,8 @@
             border-radius: 4px;
         }
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #ebefe1;
+            color: #ebefe1;
         }
         .alert-error {
             background-color: #f8d7da;

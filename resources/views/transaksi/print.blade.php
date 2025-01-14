@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Transaksi</title>
+    <title>Detail Peminajaman</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,7 +14,7 @@
         .header {
             text-align: center;
             padding: 20px;
-            background-color: #4CAF50;
+            background-color: #4c1c62;
             color: white;
         }
         .content {
@@ -26,7 +26,7 @@
         }
         .content h1 {
             text-align: center;
-            color: #4CAF50;
+            color: #4c1c62;
         }
         table {
             width: 100%;
@@ -51,15 +51,31 @@
 </head>
 <body>
     <div class="header">
-        <h1>Detail Transaksi Buku</h1>
-        <p>Perpustakaan Digital Farra</p>
+        <h1>Detail Peminjaman Buku</h1>
+        <p>Perpustakaan Digital FARRA AZZURA DASGUPTA</p>
     </div>
     <div class="content">
-        <h1>Informasi Transaksi</h1>
+        <h1>Informasi Peminjaman</h1>
         <table>
             <tr>
                 <th>Judul Buku</th>
                 <td>{{ $transaksi->buku->judul }}</td>
+            </tr>
+            <tr>
+                <th>Pengarang</th>
+                <td>{{ $transaksi->buku->pengarang }}</td>
+            </tr>
+            <tr>
+                <th>Penerbit</th>
+                <td>{{ $transaksi->buku->penerbit }}</td>
+            </tr>
+            <tr>
+                <th>ISBN</th>
+                <td>{{ $transaksi->buku->isbn }}</td>
+            </tr>
+            <tr>
+                <th>Lokasi Rak</th>
+                <td>{{ $transaksi->buku->lokasi_rak }}</td>
             </tr>
             <tr>
                 <th>Nama Peminjam</th>
@@ -81,7 +97,7 @@
     </div>
     <div class="footer">
         <p>Dokumen ini dihasilkan pada {{ now()->format('d M Y H:i') }}</p>
-        <p>&copy; 2025 Perpustakaan Digital Farra</p>
+        <p>&copy; 2025 Perpustakaan Digital FARRA AZZURA DASGUPTA</p>
     </div>
 </body>
 </html>
