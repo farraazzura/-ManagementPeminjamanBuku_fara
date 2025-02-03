@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Models\Buku;
+use App\Models\Kartu_Peminjaman;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Repositories\KartuPeminjamanRepository;
@@ -18,7 +19,7 @@ class TransaksiController extends Controller
         $search = $request->input('search');  // Ambil input pencarian dari form
 
         // Query untuk mendapatkan data transaksi, dengan pencarian
-        $transaksis = Transaksi::with('buku')
+        $transaksis = Transaksi::with('buku' )
             ->when($search, function ($query, $search) {
                 return $query->whereHas('buku', function ($query) use ($search) {
                     // Cari judul buku yang mengandung string pencarian
@@ -28,9 +29,11 @@ class TransaksiController extends Controller
             })
             ->get();
 
-        $bukus = Buku::all(); // Mengambil semua data buku (untuk view create/edit)
+            
+        $transaksi = Transaksi::with('buku')->get();
+        
 
-        return view('.index', compact('transaksis', 'bukus')); // Mengirim data ke view
+        return view('transaksi.index', compact('transaksis', 'transaksi')); // Mengirim data ke view
     }
 
     /**
@@ -39,8 +42,9 @@ class TransaksiController extends Controller
     public function create()
     {
         $bukus = Buku::all(); // Ambil semua buku untuk dropdown
+        $kartu = Kartu_Peminjaman::with('user')->get();
 
-        return view('transaksi.create', compact('bukus'));
+        return view('transaksi.create', compact('bukus', 'kartu'));
     }
 
     /**
@@ -50,14 +54,14 @@ class TransaksiController extends Controller
     {
         $request->validate([
             'id_buku' => 'required|exists:bukus,id', // Validasi buku harus ada di database
-            'nama_peminjam' => 'required|string|max:255',
+            'id_kartu' => 'required|exists:kartu__peminjamen,id',
             'tanggal_pinjam' => 'required|date',
             'tanggal_kembali' => 'nullable|date',
         ]);
 
         Transaksi::create([
             'id_buku' => $request->id_buku,
-            'nama_peminjam' => $request->nama_peminjam,
+            'id_kartu' => $request->id_kartu,
             'tanggal_pinjam' => $request->tanggal_pinjam,
             'tanggal_kembali' => $request->tanggal_kembali,
             'status' => 'dipinjam',

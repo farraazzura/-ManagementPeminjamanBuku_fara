@@ -34,14 +34,14 @@
         button {
             width: 100%;
             padding: 10px;
-            background: #4CAF50;
+            background: #4c1c62;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
         button:hover {
-            background: #45a049;
+            background: #4c1c62;
         }
         .error {
             color: red;

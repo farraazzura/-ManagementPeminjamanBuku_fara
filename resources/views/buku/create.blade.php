@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Transaksi</title>
+    <title>Tambah Buku</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -90,7 +90,7 @@
 </head>
 <body>
     <header>
-        <h1>Tambah Transaksi</h1>
+        <h1>Tambah Buku</h1>
     </header>
 
     <div class="container">
@@ -106,40 +106,61 @@
             </div>
         @endif
 
-        <!-- Form Tambah Transaksi -->
-        <form action="{{ route('transaksis.store') }}" method="POST">
+        <!-- Form Tambah Buku -->
+        <form action="{{ route('bukus.store') }}" method="POST">
             @csrf
+            @foreach($bukus as $buku)
             <div class="form-group">
-                <label for="id_buku">Pilih Buku:</label>
-                <select name="id_buku" id="id_buku" required>
-                    <option value="" disabled selected>-- Pilih Buku --</option>
-                    @foreach($bukus as $buku)
-                        <option value="{{ $buku->id }}">{{ $buku->judul }}</option>
-                    @endforeach
+                <label for="judul">Judul:</label>
+                <input type="text" name="judul" id="judul"
+                    value="{{ old('judul', $buku->judul) }}" 
+                    readonly>
+            </div>  
+
+            <div class="form-group">
+                <label for="pengarang">Pengarang:</label>
+                <input type="text" name="pengarang" id="pengarang"
+                    value="{{ old('pengarang', $buku->pengarang) }}" 
+                    readonly>
+            </div> 
+
+            <div class="form-group">
+                <label for="penerbit">Penerbit:</label>
+                <input type="text" name="penerbit" id="penerbit"
+                    value="{{ old('penerbit', $buku->penerbit) }}" 
+                    readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="tahun_tebrit">Tahun Terbit:</label>
+                <input type="date" name="tahun_tebrit" id="tahun_tebrit" value="{{ old('tahun_tebrit', $buku->tahun_tebrit) }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="isbn">ISBN:</label>
+                <input type="text" name="isbn" id="isbn"
+                    value="{{ old('isbn', $buku->isbn) }}" 
+                    readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="lokasi_rak">Lokasi Rak:</label>
+                <input type="text" name="lokasi_rak" id="lokasi_rak"
+                    value="{{ old('lokasi_rak', $buku->lokasi_rak) }}" 
+                    readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select name="status" id="status" required>
+                    <option value="" disabled>-- Pilih Status --</option>
+                    <option value="dipinjam" @if(old('status', $buku->status) == 'dipinjam') selected @endif>Dipinjam</option>
+                    <option value="dikembalikan" @if(old('status', $buku->status) == 'dikembalikan') selected @endif>Dikembalikan</option>
                 </select>
-            </div>
+                @endforeach
+            </div> 
 
-            <div class="form-group">
-                <label for="id_kartu">Pilih Peminjam:</label>
-                <select name="id_kartu" id="id_kartu" required>
-                    <option value="" disabled selected>-- Pilih Kartu --</option>
-                    @foreach($kartu as $kartus)
-                        <option value="{{ $kartus->id }}">{{ $kartus->no_kartu }} - {{ $kartus->user->username ?? ''}}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="tanggal_pinjam">Tanggal Pinjam:</label>
-                <input type="date" name="tanggal_pinjam" id="tanggal_pinjam" required>
-            </div>
-
-            <div class="form-group">
-                <label for="tanggal_kembali">Tanggal Kembali:</label>
-                <input type="date" name="tanggal_kembali" id="tanggal_kembali">
-            </div>
-
-            <button type="submit">Tambah Transaksi</button>
+            <button type="submit">Tambah Buku</button>
         </form>
     </div>
 </body>

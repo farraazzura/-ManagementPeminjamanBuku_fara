@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Manajemen Peminjaman</title>
+    <title>Dashboard - Manajemen User</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -139,6 +139,20 @@
         .search-form button:hover {
             background-color: #4c1c62;
         }
+        .back-button { 
+            background-color: #4c1c62;
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #4c1c62;
+        }
 
         /* Responsive Design */
         @media screen and (max-width: 768px) {
@@ -211,20 +225,20 @@
 </head>
 <body>
     <header>
-        <h1>Dashboard - Manajemen Transaksi Buku</h1>
+        <h1>Dashboard - Manajemen User</h1>
     </header>
     <div class="container">
-        <!-- Pencarian, Tambah Data dan Logout (di bawah teks Daftar Transaksi) -->
-        <h2>Daftar Transaksi</h2>
+        <!-- Pencarian, Tambah Data dan Logout (di bawah teks Daftar User) -->
+        <h2>Daftar User</h2>
         <div class="action-buttons">
             <!-- Pencarian -->
-            <form action="{{ route('transaksis.index') }}" method="GET" class="search-form">
-                <input type="text" name="search" placeholder="Cari Transaksi... (Nama Peminjam / Judul Buku)" value="{{ request('search') }}">
+            <form action="{{ route('users.index') }}" method="GET" class="search-form">
+                <input type="text" name="search" placeholder="Cari Transaksi... (Username )" value="{{ request('search') }}">
                 <button type="submit">Cari</button>
             </form>
 
             <!-- Tambah Data -->
-            <a href="{{ route('transaksis.create') }}">
+            <a href="{{ route('users.create') }}">
                 <button class="add-data-button">Tambah Data</button>
             </a>
 
@@ -238,41 +252,42 @@
             </div>
         </div>
 
-        <!-- Tabel Transaksi -->
+        <!-- Tombol Kembali ke Dashboard -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{{ route('dashboard.index') }}">
+                <button class="back-button">Kembali ke Dashboard</button>
+            </a>
+        </div>
+
+        <!-- Tabel User -->
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Judul Buku</th>
-                    <th>Nama Peminjam</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
-                    <th>Status</th>
+                    <th>Username</th>
+                    <th>Password</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($transaksis as $key => $transaksi)
+                @forelse($users as $key => $user)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $transaksi->buku->judul }}</td>
-                        <td>{{ $transaksi->nama_peminjam }}</td>
-                        <td>{{ $transaksi->tanggal_pinjam }}</td>
-                        <td>{{ $transaksi->tanggal_kembali ?? '-' }}</td>
-                        <td>{{ $transaksi->status }}</td>
+                        <td>{{ $user->username }}</td>
+                        <td>{{ $user->password }}</td>
                         <td class="actions">
-                            <a href="{{ route('transaksis.edit', $transaksi->id) }}"><button class="edit">Edit</button></a>
-                            <form action="{{ route('transaksis.destroy', $transaksi->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('users.edit', $user->id) }}"><button class="edit">Edit</button></a>
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="delete" onclick="return confirm('Yakin ingin menghapus transaksi ini?')">Hapus</button>
+                                <button type="submit" class="delete" onclick="return confirm('Yakin ingin menghapus user ini?')">Hapus</button>
                             </form>
-                            <a href="{{ route('transaksis.print', $transaksi->id) }}"><button class="print">Cetak</button></a>
+                            <a href="{{ route('users.print', $user->id) }}"><button class="print">Cetak</button></a>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7">Tidak ada transaksi</td>
+                        <td colspan="7">Tidak ada user</td>
                     </tr>
                 @endforelse
             </tbody>

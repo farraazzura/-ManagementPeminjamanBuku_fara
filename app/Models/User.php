@@ -38,5 +38,9 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+
+     public function kartu (){
+        return $this->hasOne(Kartu_Peminjaman::class, 'id_user');
+     }
     
 }

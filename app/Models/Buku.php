@@ -19,8 +19,8 @@ class Buku extends Model
         'status',
     ];
 
-    public function transaksi()
+    public function kartu()
     {
-        return $this->hasMany(Transaksi::class, 'id_buku');
+        return $this->hasMany(Kartu_Peminjaman::class, 'id_buku');
     }
 }

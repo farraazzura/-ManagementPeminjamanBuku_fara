@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Transaksi</title>
+    <title>Edit User</title>
     <style>
         /* Global styles */
         body {
@@ -84,6 +84,15 @@
             background-color: #8c7ca1;
         }
 
+        .alert {
+            background-color: #ebefe1;
+            padding: 15px;
+            border-radius: 8px;
+            color: #4c1c62;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         /* Mobile responsiveness */
         @media (max-width: 600px) {
             .form-container {
@@ -97,63 +106,39 @@
 <body>
 
     <div class="form-container">
-        <h1>Edit Transaksi</h1>
-        <form action="{{ route('transaksis.update', $transaksi->id) }}" method="POST">
+        <h1>Edit User</h1>
+        <form action="{{ route('users.update', $user->id) }}" method="POST">
             @csrf
-            @method('PUT')
+            @method('PUT') 
 
             <div class="form-group">
-                <label for="id_buku">Pilih Buku:</label>
-                <select name="id_buku" id="id_buku" required>
-                    <option value="" disabled>-- Pilih Buku --</option>
-                    @foreach($bukus as $buku)
-                        <option value="{{ $buku->id }}" 
-                            @if($buku->id == $transaksi->id_buku) selected @endif>
-                            {{ $buku->judul }}
-                        </option>
-                    @endforeach
-                </select>
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username"
+                    value="{{ old('username', $user->username ?? '') }}" 
+                    required>
+            </div> 
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="text" name="password" id="password"
+                    value="{{ old('password', $user->password ?? '') }}" 
+                    required>
             </div>
 
-            <div class="form-group">
-                <label for="nama_peminjam">Nama Peminjam:</label>
-                <input type="text" name="nama_peminjam" id="nama_peminjam"
-                    value="{{ old('nama_peminjam', $transaksi->kartu->user->username ?? '') }}" 
-                    readonly>
-            </div>         
-
-            <div class="form-group">
-                <label for="tanggal_pinjam">Tanggal Pinjam:</label>
-                <input type="date" name="tanggal_pinjam" id="tanggal_pinjam" value="{{ old('tanggal_pinjam', $transaksi->tanggal_pinjam) }}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="tanggal_kembali">Tanggal Kembali:</label>
-                <input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali', $transaksi->tanggal_kembali) }}">
-            </div>
-
-
-            <div class="form-group">
-                <label for="status">Status:</label>
-                <select name="status" id="status" required>
-                    <option value="" disabled>-- Pilih Status --</option>
-                    <option value="dipinjam" @if(old('status', $transaksi->status) == 'dipinjam') selected @endif>Dipinjam</option>
-                    <option value="dikembalikan" @if(old('status', $transaksi->status) == 'dikembalikan') selected @endif>Dikembalikan</option>
-                </select>
-            </div>
-
-            <button type="submit">Edit Transaksi</button>
+            <button type="submit">Edit User</button>
         </form>
-            <a href="{{ route('transaksis.index') }}">
-            
-                <button type="button" class="cancel-btn">Batal</button>
-            </a>
-            @if(session('success'))
+
+        <!-- Cancel Button -->
+        <a href="{{ route('users.index') }}">
+            <button type="button" class="cancel-btn">Batal</button>
+        </a>
+
+        <!-- Success Message -->
+        @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
-        
     </div>
 
 </body>

@@ -7,20 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kartu_Peminjaman extends Model
 {
-    protected $table = 'kartu_peminjamen';
+    use HasFactory;
+
+    protected $table = 'kartu__peminjamen';
 
     protected $fillable = [
-        'id_transaksi',
         'nomor_kartu',
-        'nama_peminjam',
-        'judul_buku',
-        'tanggal_pinjam',
-        'tanggal_kembali',
+        'id_user'
     ];
 
     // Relasi ke model Transaksi
     public function transaksi()
     {
-        return $this->belongsTo(Transaksi::class, 'id_transaksi');
+        return $this->hasMany(Transaksi::class, 'id_kartu');
+    }
+
+    // Relasi ke model User
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

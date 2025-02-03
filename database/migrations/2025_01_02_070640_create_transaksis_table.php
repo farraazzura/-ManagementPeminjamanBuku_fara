@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("id_kartu")->constrained('kartu__peminjamen');
             $table->foreignId("id_buku")->constrained('bukus')->onDeleted('cascade');
-            $table->string("nama_peminjam");
+            //$table->string("nama_peminjam");
             $table->date("tanggal_pinjam");
             $table->date("tanggal_kembali");
             $table->enum("status",["dipinjam", "dikembalikan"])->default('dipinjam');

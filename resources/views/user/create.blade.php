@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Transaksi</title>
+    <title>Tambah User</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,7 +80,7 @@
         }
         .alert-success {
             background-color: #ebefe1;
-            color: #ebefe1;
+            color: #4c1c62;
         }
         .alert-error {
             background-color: #f8d7da;
@@ -90,7 +90,7 @@
 </head>
 <body>
     <header>
-        <h1>Tambah Transaksi</h1>
+        <h1>Tambah User</h1>
     </header>
 
     <div class="container">
@@ -106,40 +106,30 @@
             </div>
         @endif
 
-        <!-- Form Tambah Transaksi -->
-        <form action="{{ route('transaksis.store') }}" method="POST">
+        <!-- Form Tambah User -->
+        <form action="{{ route('users.store') }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="id_buku">Pilih Buku:</label>
-                <select name="id_buku" id="id_buku" required>
-                    <option value="" disabled selected>-- Pilih Buku --</option>
-                    @foreach($bukus as $buku)
-                        <option value="{{ $buku->id }}">{{ $buku->judul }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <div class="form-container"> 
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username"
+                        value="{{ old('username', $user->username ?? '') }}">
+                </div> 
 
-            <div class="form-group">
-                <label for="id_kartu">Pilih Peminjam:</label>
-                <select name="id_kartu" id="id_kartu" required>
-                    <option value="" disabled selected>-- Pilih Kartu --</option>
-                    @foreach($kartu as $kartus)
-                        <option value="{{ $kartus->id }}">{{ $kartus->no_kartu }} - {{ $kartus->user->username ?? ''}}</option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="text" name="password" id="password"
+                        value="{{ old('password', $user->password ?? '') }}">
+                </div>
 
-            <div class="form-group">
-                <label for="tanggal_pinjam">Tanggal Pinjam:</label>
-                <input type="date" name="tanggal_pinjam" id="tanggal_pinjam" required>
+                <button type="submit">Tambah User</button>
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            
             </div>
-
-            <div class="form-group">
-                <label for="tanggal_kembali">Tanggal Kembali:</label>
-                <input type="date" name="tanggal_kembali" id="tanggal_kembali">
-            </div>
-
-            <button type="submit">Tambah Transaksi</button>
         </form>
     </div>
 </body>

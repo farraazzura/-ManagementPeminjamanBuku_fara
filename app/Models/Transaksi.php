@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Transaksi extends Model
 {
     protected $table = 'transaksis';
-    protected $fillable = ['id_buku', 'nama_peminjam', 'tanggal_pinjam', 'tanggal_kembali', 'status'];
+    protected $fillable = ['id_kartu', 'id_buku', 'tanggal_pinjam', 'tanggal_kembali', 'status'];
 
-    public function kartu_Peminjaman()
+    public function kartu()
     {
-        return $this->hasOne(Kartu_Peminjaman::class, 'id_transaksi');
+        return $this->belongsTo(Kartu_Peminjaman::class, 'id_kartu');
     }
     public function buku()
     {

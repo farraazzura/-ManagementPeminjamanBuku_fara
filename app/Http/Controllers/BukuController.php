@@ -4,23 +4,43 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BukuController extends Controller
 {
-    // Tampilkan daftar buku
-    public function index()
+    /**
+     * Menampilkan daftar buku dengan fitur pencarian.
+     */
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+        
+        $bukus = Buku::when($search, function ($query, $search) {
+                return $query->where('judul', 'like', '%' . $search . '%')
+                             ->orWhere('pengarang', 'like', '%' . $search . '%')
+                             ->orWhere('penerbit', 'like', '%' . $search . '%');
+            })
+            ->get();
+
+         // Retrieve all books from the database
         $bukus = Buku::all();
-        return view('bukus.index', compact('bukus'));
+
+        \Log::info($bukus);
+
+        return view('buku.index', compact('bukus'));
     }
 
-    // Tampilkan form tambah buku
+    /**
+     * Menampilkan form tambah buku.
+     */
     public function create()
     {
-        return view('bukus.create');
+        return view('buku.create');
     }
 
-    // Simpan buku baru
+    /**
+     * Menyimpan buku baru ke database.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -33,17 +53,27 @@ class BukuController extends Controller
         ]);
 
         Buku::create($request->all());
-        return redirect('/bukus')->with('success', 'Buku berhasil ditambahkan!');
+        return redirect()->route('bukus.index')->with('success', 'Buku berhasil ditambahkan!');
     }
 
-    // Tampilkan form edit buku
+    /**
+     * Menampilkan halaman edit buku.
+     */
     public function edit($id)
     {
         $buku = Buku::findOrFail($id);
-        return view('bukus.edit', compact('buku'));
+
+        if (!$buku) {
+            // Jika tidak ditemukan, arahkan kembali dengan pesan error
+            return redirect()->route('bukus.index')->with('error', 'Buku tidak ditemukan');
+        }
+        
+        return view('buku.edit', compact('buku'));
     }
 
-    // Update data buku
+    /**
+     * Mengupdate data buku.
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -57,14 +87,34 @@ class BukuController extends Controller
 
         $buku = Buku::findOrFail($id);
         $buku->update($request->all());
-        return redirect('/bukus')->with('success', 'Buku berhasil diperbarui!');
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui!');
     }
 
-    // Hapus buku
+    /**
+     * Menghapus buku.
+     */
     public function destroy($id)
-    {
+    { 
         $buku = Buku::findOrFail($id);
         $buku->delete();
-        return redirect('/bukus')->with('success', 'Buku berhasil dihapus!');
+        return redirect()->route('bukus.index')->with('success', 'Buku berhasil dihapus!');
+    }
+
+    /**
+     * Cetak daftar buku dalam format PDF.
+     */
+    public function print()
+    {
+        $bukus = Buku::all();
+        $pdf = Pdf::loadView('buku.print', compact('bukus'))->setPaper('a4', 'portrait');
+        return $pdf->download('daftar_buku.pdf');
+    }
+
+    /**
+     * Middleware untuk memastikan hanya pengguna yang telah login bisa mengakses fitur ini.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 }
