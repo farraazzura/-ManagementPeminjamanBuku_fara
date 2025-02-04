@@ -18,9 +18,8 @@ class UserController extends Controller
 
         // Query untuk mendapatkan data user, dengan pencarian berdasarkan username
         $users = User::when($search, function ($query, $search) {
-                return $query->where('username', 'like', '%' . $search . '%');
-            })
-            ->get();
+            return $query->where('username', 'like', '%' . $search . '%');
+        })->get();
 
         return view('user.index', compact('users'));
     }
@@ -57,7 +56,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('users.index', compact('user'));
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -65,6 +64,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        // Menggunakan variabel $user untuk mengambil satu data user
         $user = User::findOrFail($id);
         return view('user.edit', compact('user'));
     }
@@ -80,8 +80,9 @@ class UserController extends Controller
         ]);
 
         $user = User::findOrFail($id);
-        
         $user->username = $request->username;
+
+        // Jika password diisi, maka lakukan update password
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
@@ -99,18 +100,6 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
-    }
-
-    /**
-     * Cetak detail user dalam bentuk PDF.
-     */
-    public function print($id)
-    {
-        $user = User::findOrFail($id);
-        $pdf = Pdf::loadView('user.print', compact('user'))
-                    ->setPaper('a4', 'portrait');
-
-        return $pdf->download('user_' . $user->id . '.pdf');
     }
 
     /**

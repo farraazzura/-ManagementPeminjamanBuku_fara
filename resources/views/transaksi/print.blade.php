@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Peminajaman</title>
+    <title>Detail Peminjaman</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,8 +57,8 @@
     <div class="content">
         <h1>Informasi Peminjaman</h1>
         <table>
-            <?php dd($kartu);?>
-            {{-- <tr>
+             
+            <tr>
                 <th>Judul Buku</th>
                 <td>{{ $transaksi->buku->judul }}</td>
             </tr>
@@ -80,7 +80,7 @@
             </tr>
             <tr>
                 <th>Nama Peminjam</th>
-                <td>{{ $transaksi->nama_peminjam }}</td>
+                <td>{{ $transaksi->kartu->users->username ?? '-' }}</td>
             </tr>
             <tr>
                 <th>Tanggal Pinjam</th>
@@ -93,7 +93,7 @@
             <tr>
                 <th>Status</th>
                 <td>{{ ucfirst($transaksi->status) }}</td>
-            </tr> --}}
+            </tr>
         </table>
     </div>
     <div class="footer">

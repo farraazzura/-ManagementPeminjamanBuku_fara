@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("judul");
             $table->string("pengarang");
             $table->string("penerbit");
-            $table->year("tahun_terbit");
+            $table->string("tahun_terbit");
             $table->string("isbn")->nullable();
             $table->string("lokasi_rak");
             $table->enum("status",["tersedia", "dipinjam"])->default('tersedia');

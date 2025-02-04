@@ -39,7 +39,10 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::resource('bukus', BukuController::class);
+Route::put('/bukus/{id}', [BukuController::class, 'update'])->name('bukus.update');
 
 Route::resource('users', UserController::class);
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // Logout

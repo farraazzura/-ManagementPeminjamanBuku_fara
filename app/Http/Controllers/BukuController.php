@@ -14,16 +14,12 @@ class BukuController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        
-        $bukus = Buku::when($search, function ($query, $search) {
-                return $query->where('judul', 'like', '%' . $search . '%')
-                             ->orWhere('pengarang', 'like', '%' . $search . '%')
-                             ->orWhere('penerbit', 'like', '%' . $search . '%');
-            })
-            ->get();
 
-         // Retrieve all books from the database
-        $bukus = Buku::all();
+        $bukus = Buku::when($search, function ($query, $search) {
+            return $query->where('judul', 'like', '%' . $search . '%')
+                            ->orWhere('pengarang', 'like', '%' . $search . '%')
+                            ->orWhere('penerbit', 'like', '%' . $search . '%');
+        })->get();
 
         \Log::info($bukus);
 
@@ -43,16 +39,22 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'pengarang' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
-            'tahun_terbit' => 'required|integer',
-            'isbn' => 'nullable|string|max:50',
-            'lokasi_rak' => 'required|string|max:50',
+            'judul'       => 'required|string|max:255',
+            'pengarang'   => 'required|string|max:255',
+            'penerbit'    => 'required|string|max:255',
+            'tahun_terbit'=> 'required|string|max:4',
+            'isbn'        => 'required|string|max:50|unique:bukus,isbn',
+            'lokasi_rak'  => 'required|string|max:50',
+            'status'      => 'required|in:tersedia,dipinjam',
         ]);
 
-        Buku::create($request->all());
+        // Simpan ke database
+        Buku::create($request->only([
+            'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'lokasi_rak', 'status'
+        ]));
+
         return redirect()->route('bukus.index')->with('success', 'Buku berhasil ditambahkan!');
     }
 
@@ -62,12 +64,6 @@ class BukuController extends Controller
     public function edit($id)
     {
         $buku = Buku::findOrFail($id);
-
-        if (!$buku) {
-            // Jika tidak ditemukan, arahkan kembali dengan pesan error
-            return redirect()->route('bukus.index')->with('error', 'Buku tidak ditemukan');
-        }
-        
         return view('buku.edit', compact('buku'));
     }
 
@@ -76,18 +72,28 @@ class BukuController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validasi input; perhatikan aturan unik untuk isbn, kecuali data yang sedang diedit
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'pengarang' => 'required|string|max:255',
-            'penerbit' => 'required|string|max:255',
-            'tahun_terbit' => 'required|integer',
-            'isbn' => 'nullable|string|max:50',
-            'lokasi_rak' => 'required|string|max:50',
+            'judul'       => 'required|string|max:255',
+            'pengarang'   => 'required|string|max:255',
+            'penerbit'    => 'required|string|max:255',
+            'tahun_terbit'=> 'required|string|max:4',
+            'isbn'        => 'nullable|string|max:50|unique:bukus,isbn,' . $id,
+            'lokasi_rak'  => 'required|string|max:50',
+            'status'      => 'required|in:tersedia,dipinjam',
         ]);
 
+        // Cari data buku yang akan diupdate
         $buku = Buku::findOrFail($id);
-        $buku->update($request->all());
-        return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui!');
+
+        // Update data buku
+        $buku->update($request->only([
+            'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'lokasi_rak', 'status'
+        ]));
+
+        \Log::info('Updated buku:', $buku->toArray());
+
+        return redirect()->route('bukus.index')->with('success', 'Buku berhasil diperbarui.');
     }
 
     /**
@@ -100,14 +106,18 @@ class BukuController extends Controller
         return redirect()->route('bukus.index')->with('success', 'Buku berhasil dihapus!');
     }
 
-    /**
-     * Cetak daftar buku dalam format PDF.
-     */
-    public function print()
+    public function print($id)
     {
-        $bukus = Buku::all();
-        $pdf = Pdf::loadView('buku.print', compact('bukus'))->setPaper('a4', 'portrait');
-        return $pdf->download('daftar_buku.pdf');
+        $buku = Buku::find($id);
+
+        if (!$buku) {
+            return redirect()->back()->with('error', 'Buku tidak ditemukan');
+        }
+
+        $pdf = Pdf::loadView('buku.print', compact('buku'))
+                    ->setPaper('a4', 'portrait');
+
+        return $pdf->download('detail_buku.pdf');
     }
 
     /**

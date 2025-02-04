@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Peminajaman</title>
+    <title>Detail Buku</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             color: #333;
         }
         .header {
             text-align: center;
-            padding: 20px;
+            padding: 10px;
             background-color: #4c1c62;
             color: white;
         }
@@ -51,49 +51,36 @@
 </head>
 <body>
     <div class="header">
-        <h1>Detail Peminjaman Buku</h1>
+        <h1>Detail Buku</h1>
         <p>Perpustakaan Digital FARRA AZZURA DASGUPTA</p>
     </div>
     <div class="content">
-        <h1>Informasi Peminjaman</h1>
+        <h1>Informasi Buku</h1>
         <table>
-            <?php dd($kartu);?>
-            {{-- <tr>
+            <tr>
                 <th>Judul Buku</th>
-                <td>{{ $transaksi->buku->judul }}</td>
+                <td>{{ $buku->judul ?? 'Data tidak tersedia' }}</td>
             </tr>
             <tr>
                 <th>Pengarang</th>
-                <td>{{ $transaksi->buku->pengarang }}</td>
+                <td>{{ $buku->pengarang ?? 'Data tidak tersedia' }}</td>
             </tr>
             <tr>
                 <th>Penerbit</th>
-                <td>{{ $transaksi->buku->penerbit }}</td>
+                <td>{{ $buku->penerbit ?? 'Data tidak tersedia' }}</td>
             </tr>
             <tr>
                 <th>ISBN</th>
-                <td>{{ $transaksi->buku->isbn }}</td>
+                <td>{{ $buku->isbn ?? 'Data tidak tersedia' }}</td>
             </tr>
             <tr>
                 <th>Lokasi Rak</th>
-                <td>{{ $transaksi->buku->lokasi_rak }}</td>
-            </tr>
-            <tr>
-                <th>Nama Peminjam</th>
-                <td>{{ $transaksi->nama_peminjam }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Pinjam</th>
-                <td>{{ $transaksi->tanggal_pinjam }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Kembali</th>
-                <td>{{ $transaksi->tanggal_kembali ?? '-' }}</td>
-            </tr>
+                <td>{{ $buku->lokasi_rak ?? 'Data tidak tersedia' }}</td>
+            </tr> 
             <tr>
                 <th>Status</th>
-                <td>{{ ucfirst($transaksi->status) }}</td>
-            </tr> --}}
+                <td>{{ ucfirst($buku->status ?? '-') }}</td>
+            </tr>
         </table>
     </div>
     <div class="footer">

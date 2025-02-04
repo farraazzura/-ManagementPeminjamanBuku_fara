@@ -12,7 +12,7 @@ class Transaksi extends Model
 
     public function kartu()
     {
-        return $this->belongsTo(Kartu_Peminjaman::class, 'id_kartu');
+        return $this->belongsTo(KartuPeminjaman::class, 'id_kartu');
     }
     public function buku()
     {

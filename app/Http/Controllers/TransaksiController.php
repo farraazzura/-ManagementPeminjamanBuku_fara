@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Models\Buku;
-use App\Models\Kartu_Peminjaman;
+use App\Models\KartuPeminjaman;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Repositories\KartuPeminjamanRepository;
@@ -42,7 +42,7 @@ class TransaksiController extends Controller
     public function create()
     {
         $bukus = Buku::all(); // Ambil semua buku untuk dropdown
-        $kartu = Kartu_Peminjaman::with('user')->get();
+        $kartu = KartuPeminjaman::with('user')->get();
 
         return view('transaksi.create', compact('bukus', 'kartu'));
     }

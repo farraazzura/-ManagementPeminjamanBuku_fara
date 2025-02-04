@@ -68,7 +68,7 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #4c1c62;
+            background-color: #3a1450;
         }
         .alert {
             text-align: center;
@@ -79,8 +79,8 @@
             border-radius: 4px;
         }
         .alert-success {
-            background-color: #ebefe1;
-            color: #ebefe1;
+            background-color: #d4edda;
+            color: #155724;
         }
         .alert-error {
             background-color: #f8d7da;
@@ -109,55 +109,43 @@
         <!-- Form Tambah Buku -->
         <form action="{{ route('bukus.store') }}" method="POST">
             @csrf
-            @foreach($bukus as $buku)
             <div class="form-group">
                 <label for="judul">Judul:</label>
-                <input type="text" name="judul" id="judul"
-                    value="{{ old('judul', $buku->judul) }}" 
-                    readonly>
+                <input type="text" name="judul" id="judul" required>
             </div>  
 
             <div class="form-group">
                 <label for="pengarang">Pengarang:</label>
-                <input type="text" name="pengarang" id="pengarang"
-                    value="{{ old('pengarang', $buku->pengarang) }}" 
-                    readonly>
+                <input type="text" name="pengarang" id="pengarang" required>
             </div> 
 
             <div class="form-group">
                 <label for="penerbit">Penerbit:</label>
-                <input type="text" name="penerbit" id="penerbit"
-                    value="{{ old('penerbit', $buku->penerbit) }}" 
-                    readonly>
+                <input type="text" name="penerbit" id="penerbit" required>
             </div>
 
             <div class="form-group">
-                <label for="tahun_tebrit">Tahun Terbit:</label>
-                <input type="date" name="tahun_tebrit" id="tahun_tebrit" value="{{ old('tahun_tebrit', $buku->tahun_tebrit) }}" required>
+                <label for="tahun_terbit">Tahun Terbit:</label>
+                <input type="string" name="tahun_terbit" id="tahun_terbit" required>
             </div>
 
             <div class="form-group">
                 <label for="isbn">ISBN:</label>
-                <input type="text" name="isbn" id="isbn"
-                    value="{{ old('isbn', $buku->isbn) }}" 
-                    readonly>
+                <input type="text" name="isbn" id="isbn" required>
             </div>
 
             <div class="form-group">
                 <label for="lokasi_rak">Lokasi Rak:</label>
-                <input type="text" name="lokasi_rak" id="lokasi_rak"
-                    value="{{ old('lokasi_rak', $buku->lokasi_rak) }}" 
-                    readonly>
+                <input type="text" name="lokasi_rak" id="lokasi_rak" required>
             </div>
 
             <div class="form-group">
                 <label for="status">Status:</label>
                 <select name="status" id="status" required>
-                    <option value="" disabled>-- Pilih Status --</option>
-                    <option value="dipinjam" @if(old('status', $buku->status) == 'dipinjam') selected @endif>Dipinjam</option>
-                    <option value="dikembalikan" @if(old('status', $buku->status) == 'dikembalikan') selected @endif>Dikembalikan</option>
+                    <option value="" disabled selected>-- Pilih Status --</option>
+                    <option value="tersedia">Tersedia</option>
+                    <option value="dipinjam">Dipinjam</option>
                 </select>
-                @endforeach
             </div> 
 
             <button type="submit">Tambah Buku</button>

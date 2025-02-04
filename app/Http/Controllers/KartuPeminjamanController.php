@@ -67,17 +67,7 @@ class KartuPeminjamanController extends Controller
                   ->setPaper('a4', 'portrait');
     
         return $pdf->download('semua_kartu_peminjaman.pdf');
-    }
-
-    public function printUsers()
-    {
-        $users = User::all();
-    
-        $pdf = Pdf::loadView('users.print', compact('users'))
-                  ->setPaper('a4', 'portrait');
-    
-        return $pdf->download('daftar_users.pdf');
-    }
+    }  
 
     public function printBooks()
     {

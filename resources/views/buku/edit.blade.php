@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Buku</title>
     <style>
-        /* Global styles */
+        /* Gaya tetap sama seperti sebelumnya */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7fc;
@@ -107,66 +107,66 @@
 </head>
 <body>
 
-    <div class="form-container">
-        <h1>Edit Buku</h1>
-        <form action="{{ route('bukus.update', $buku->id) }}" method="POST">
-            @csrf
-            @method('PUT') 
+<div class="form-container">
+    <h1>Edit Buku</h1>
+    <form action="{{ route('bukus.update', $buku->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-            <div class="form-group">
-                <label for="judul">Judul:</label>
-                <input type="text" name="judul" id="judul" value="{{ old('judul', $buku->judul) }}" required>
-            </div>  
+        <div class="form-group">
+            <label for="judul">Judul:</label>
+            <input type="text" name="judul" id="judul" value="{{ old('judul', $buku->judul) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="pengarang">Pengarang:</label>
-                <input type="text" name="pengarang" id="pengarang" value="{{ old('pengarang', $buku->pengarang) }}" required>
-            </div> 
+        <div class="form-group">
+            <label for="pengarang">Pengarang:</label>
+            <input type="text" name="pengarang" id="pengarang" value="{{ old('pengarang', $buku->pengarang) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="penerbit">Penerbit:</label>
-                <input type="text" name="penerbit" id="penerbit" value="{{ old('penerbit', $buku->penerbit) }}" required>
-            </div>
+        <div class="form-group">
+            <label for="penerbit">Penerbit:</label>
+            <input type="text" name="penerbit" id="penerbit" value="{{ old('penerbit', $buku->penerbit) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="tahun_tebrit">Tahun Terbit:</label>
-                <input type="date" name="tahun_tebrit" id="tahun_tebrit" value="{{ old('tahun_tebrit', $buku->tahun_tebrit) }}" required>
-            </div>
+        <div class="form-group">
+            <label for="tahun_terbit">Tahun Terbit:</label>
+            <input type="number" name="tahun_terbit" id="tahun_terbit" value="{{ old('tahun_terbit', $buku->tahun_terbit) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="isbn">ISBN:</label>
-                <input type="text" name="isbn" id="isbn" value="{{ old('isbn', $buku->isbn) }}" required>
-            </div>
+        <div class="form-group">
+            <label for="isbn">ISBN:</label>
+            <input type="text" name="isbn" id="isbn" value="{{ old('isbn', $buku->isbn) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="lokasi_rak">Lokasi Rak:</label>
-                <input type="text" name="lokasi_rak" id="lokasi_rak" value="{{ old('lokasi_rak', $buku->lokasi_rak) }}" required>
-            </div>
+        <div class="form-group">
+            <label for="lokasi_rak">Lokasi Rak:</label>
+            <input type="text" name="lokasi_rak" id="lokasi_rak" value="{{ old('lokasi_rak', $buku->lokasi_rak) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="status">Status:</label>
-                <select name="status" id="status" required>
-                    <option value="" disabled>-- Pilih Status --</option>
-                    <option value="dipinjam" @if(old('status', $buku->status) == 'dipinjam') selected @endif>Dipinjam</option>
-                    <option value="dikembalikan" @if(old('status', $buku->status) == 'dikembalikan') selected @endif>Dikembalikan</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select name="status" id="status" required>
+                <option value="" disabled>-- Pilih Status --</option>
+                <option value="tersedia" @if(old('status', $buku->status) == 'tersedia') selected @endif>Tersedia</option>
+                <option value="dipinjam" @if(old('status', $buku->status) == 'dipinjam') selected @endif>Dipinjam</option>
+            </select>
+        </div>
 
-            <button type="submit">Edit Buku</button>
-        </form>
+        <button type="submit">Edit Buku</button>
+    </form>
 
-        <!-- Tombol Batal -->
-        <a href="{{ route('bukus.index') }}">
-            <button type="button" class="cancel-btn">Batal</button>
-        </a>
+    <!-- Tombol Batal -->
+    <a href="{{ route('bukus.index') }}">
+        <button type="button" class="cancel-btn">Batal</button>
+    </a>
 
-        <!-- Pesan Sukses -->
-        @if(session('success'))
-            <div class="alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-    </div>
+    <!-- Pesan Sukses -->
+    @if(session('success'))
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+</div>
 
 </body>
 </html>
