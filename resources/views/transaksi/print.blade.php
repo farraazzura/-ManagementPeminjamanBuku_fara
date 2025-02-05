@@ -80,7 +80,7 @@
             </tr>
             <tr>
                 <th>Nama Peminjam</th>
-                <td>{{ $transaksi->kartu->users->username ?? '-' }}</td>
+                <td>{{ $transaksi->user->username ?? '-' }}</td>
             </tr>
             <tr>
                 <th>Tanggal Pinjam</th>

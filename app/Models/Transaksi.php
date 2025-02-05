@@ -18,4 +18,9 @@ class Transaksi extends Model
     {
         return $this->belongsTo(Buku::class, 'id_buku');
     }
+    public function user()
+    {
+    return $this->belongsTo(User::class, 'user_id'); // Sesuaikan foreign key jika berbeda
+    }
+
 }

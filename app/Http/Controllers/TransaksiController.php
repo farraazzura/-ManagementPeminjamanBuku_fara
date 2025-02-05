@@ -15,26 +15,26 @@ class TransaksiController extends Controller
      * Tampilkan daftar transaksi dengan opsi pencarian.
      */
     public function index(Request $request)
-    {
-        $search = $request->input('search');  // Ambil input pencarian dari form
+{
+    $search = $request->input('search'); // Ambil input pencarian dari form
 
-        // Query untuk mendapatkan data transaksi, dengan pencarian
-        $transaksis = Transaksi::with('buku' )
-            ->when($search, function ($query, $search) {
-                return $query->whereHas('buku', function ($query) use ($search) {
-                    // Cari judul buku yang mengandung string pencarian
-                    $query->where('judul', 'like', '%' . $search . '%');
-                })
-                ->orWhere('nama_peminjam', 'like', '%' . $search . '%'); // Cari nama peminjam yang mengandung string pencarian
+    // Query untuk mendapatkan data transaksi dengan pencarian
+    $transaksis = Transaksi::with(['buku', 'user']) // Pastikan ada relasi 'user'
+        ->when($search, function ($query, $search) {
+            return $query->whereHas('buku', function ($query) use ($search) {
+                // Cari berdasarkan judul buku
+                $query->where('judul', 'like', '%' . $search . '%');
             })
-            ->get();
+            ->orWhereHas('user', function ($query) use ($search) {
+                // Cari berdasarkan nama peminjam di tabel users
+                $query->where('username', 'like', '%' . $search . '%');
+            });
+        })
+        ->get();
 
-            
-        $transaksi = Transaksi::with('buku')->get();
-        
+    return view('transaksi.index', compact('transaksis'));
+}
 
-        return view('transaksi.index', compact('transaksis', 'transaksi')); // Mengirim data ke view
-    }
 
     /**
      * Buat Transaksi
@@ -55,6 +55,7 @@ class TransaksiController extends Controller
         $request->validate([
             'id_buku' => 'required|exists:bukus,id', // Validasi buku harus ada di database
             'id_kartu' => 'required|exists:kartu__peminjamen,id',
+            'user_id' => 'nullable|exists:users,id',
             'tanggal_pinjam' => 'required|date',
             'tanggal_kembali' => 'nullable|date',
         ]);
@@ -62,6 +63,7 @@ class TransaksiController extends Controller
         Transaksi::create([
             'id_buku' => $request->id_buku,
             'id_kartu' => $request->id_kartu,
+            'user_id' => $request->user_id,
             'tanggal_pinjam' => $request->tanggal_pinjam,
             'tanggal_kembali' => $request->tanggal_kembali,
             'status' => 'dipinjam',
