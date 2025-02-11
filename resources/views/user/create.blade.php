@@ -111,15 +111,23 @@
             @csrf
             <div class="form-container"> 
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" name="username" id="username"
-                        value="{{ old('username', $user->username ?? '') }}">
+                    <label for="no_kartu">No Kartu:</label>
+                    <input type="number" name="no_kartu" id="no_kartu >
                 </div> 
 
                 <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="text" name="password" id="password"
-                        value="{{ old('password', $user->password ?? '') }}">
+                    <label for="nama">Nama:</label>
+                    <input type="text" name="nama" id="nama" >
+                </div>
+
+                <div class="form-group">
+                    <label for="alamat">Alamat:</label>
+                    <input type="text" name="alamat" id="alamat" >
+                </div>
+
+                <div class="form-group">
+                    <label for="no_hp">No. HP:</label>
+                    <input type="number" name="no_hp" id="no_hp" >
                 </div>
 
                 <button type="submit">Tambah User</button>

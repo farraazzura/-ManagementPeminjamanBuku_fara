@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kartu__peminjamen', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId("id_buku")->contrained('bukus');
-            $table->foreignId("id_user")->constrained('users');
+            $table->id(); 
+            $table->integer("no_kartu");
+            $table->string("nama");
+            $table->text("alamat");
+            $table->string("no_hp");
+            //$table->foreignId("id_user")->constrained('users');
             //$table->string("nama_peminjam");
             //$table->date("tanggal_pinjam");
             //$table->date("tanggal_kembali");

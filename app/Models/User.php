@@ -43,4 +43,7 @@ class User extends Authenticatable
         return $this->hasOne(Kartu_Peminjaman::class, 'id_user');
      }
     
+     public function transaksi(){
+        return $this->hasMany(Transaksi::class, 'user_id');
+     }
 }

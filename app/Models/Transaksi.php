@@ -12,15 +12,11 @@ class Transaksi extends Model
 
     public function kartu()
     {
-        return $this->belongsTo(KartuPeminjaman::class, 'id_kartu');
+        return $this->belongsTo(KartuPeminjaman::class, 'id_kartu')->withDefault();
     }
     public function buku()
     {
         return $this->belongsTo(Buku::class, 'id_buku');
-    }
-    public function user()
-    {
-    return $this->belongsTo(User::class, 'user_id'); // Sesuaikan foreign key jika berbeda
-    }
+    } 
 
 }

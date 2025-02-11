@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Models\Buku;
+use App\Models\User;
 use App\Models\KartuPeminjaman;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -19,15 +20,15 @@ class TransaksiController extends Controller
     $search = $request->input('search'); // Ambil input pencarian dari form
 
     // Query untuk mendapatkan data transaksi dengan pencarian
-    $transaksis = Transaksi::with(['buku', 'user']) // Pastikan ada relasi 'user'
+    $transaksis = Transaksi::with(['buku', 'kartu']) // Pastikan ada relasi 'user'
         ->when($search, function ($query, $search) {
             return $query->whereHas('buku', function ($query) use ($search) {
                 // Cari berdasarkan judul buku
                 $query->where('judul', 'like', '%' . $search . '%');
             })
-            ->orWhereHas('user', function ($query) use ($search) {
-                // Cari berdasarkan nama peminjam di tabel users
-                $query->where('username', 'like', '%' . $search . '%');
+            ->orWhereHas('kartu', function ($query) use ($search) {
+                // Cari berdasarkan nama peminjam di tabel kartu__peminjamen
+                $query->where('nama', 'like', '%' . $search . '%');
             });
         })
         ->get();
@@ -42,7 +43,7 @@ class TransaksiController extends Controller
     public function create()
     {
         $bukus = Buku::all(); // Ambil semua buku untuk dropdown
-        $kartu = KartuPeminjaman::with('user')->get();
+        $kartu = KartuPeminjaman::all();
 
         return view('transaksi.create', compact('bukus', 'kartu'));
     }
@@ -51,26 +52,25 @@ class TransaksiController extends Controller
      * Simpan transaksi baru.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'id_buku' => 'required|exists:bukus,id', // Validasi buku harus ada di database
-            'id_kartu' => 'required|exists:kartu__peminjamen,id',
-            'user_id' => 'nullable|exists:users,id',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali' => 'nullable|date',
-        ]);
+{
+    $request->validate([
+        'id_buku' => 'required|exists:bukus,id',
+        'id_kartu' => 'required|exists:kartu__peminjamen,id', 
+        'tanggal_pinjam' => 'required|date',
+        'tanggal_kembali' => 'nullable|date|after_or_equal:tanggal_pinjam',
+    ]);
 
-        Transaksi::create([
-            'id_buku' => $request->id_buku,
-            'id_kartu' => $request->id_kartu,
-            'user_id' => $request->user_id,
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'status' => 'dipinjam',
-        ]);
+    Transaksi::create([
+        'id_buku' => $request->id_buku,
+        'id_kartu' => $request->id_kartu,
+        'tanggal_pinjam' => $request->tanggal_pinjam,
+        'tanggal_kembali' => $request->tanggal_kembali,
+        'status' => 'dipinjam', // Default status saat peminjaman baru dibuat
+    ]);
 
-        return redirect()->route('transaksis.index')->with('success', 'Transaksi berhasil ditambahkan.');
-    }
+    return redirect()->route('transaksis.index')->with('success', 'Transaksi berhasil ditambahkan.');
+}
+
 
     /**
      * Tampilkan detail transaksi.
@@ -85,47 +85,41 @@ class TransaksiController extends Controller
      * Edit transaksi.
      */
     public function edit($id)
-    {
-        // Ambil transaksi berdasarkan ID
-        $transaksi = Transaksi::findOrFail($id);
-        // Ambil semua buku untuk dropdown
-        $bukus = Buku::all();
-        // Kirim data ke view
-        return view('transaksi.edit', compact('transaksi', 'bukus'));
-    }
+{
+    $transaksi = Transaksi::findOrFail($id);
+    $bukus = Buku::all();
+    $kartus = KartuPeminjaman::all(); // Ambil data kartu peminjaman
+
+    return view('transaksi.edit', compact('transaksi', 'bukus', 'kartus'));
+}
+
 
     /**
     * Update transaksi.
     */
     
     public function update(Request $request, $id)
-    {
+{
+    $request->validate([
+        'id_buku' => 'required|exists:bukus,id',
+        'id_kartu' => 'required|exists:kartu__peminjamen,id',
+        'tanggal_pinjam' => 'required|date',
+        'tanggal_kembali' => 'nullable|date',
+        'status' => 'required|in:dipinjam,dikembalikan',
+    ]);
 
-       // Validasi input
-        $validasi = $request->validate([
-            'id_buku' => 'required|exists:bukus,id',
-            'nama_peminjam' => 'required|string|max:255',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali' => 'nullable|date',
-            'status' => 'required|in:dipinjam,dikembalikan',
-        ]);        
-        // Cari transaksi berdasarkan ID
-        $transaksi = Transaksi::findOrFail($id);
+    $transaksi = Transaksi::findOrFail($id);
+    $transaksi->update([
+        'id_buku' => $request->id_buku,
+        'id_kartu' => $request->id_kartu,
+        'tanggal_pinjam' => $request->tanggal_pinjam,
+        'tanggal_kembali' => $request->tanggal_kembali,
+        'status' => $request->status,
+    ]);
 
-        // Update data transaksi
-        $transaksi->update([
-            'id_buku' => $request->id_buku,
-            'nama_peminjam' => $request->nama_peminjam,
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'status' => $request->status,
-        ]);
+    return redirect()->route('transaksis.index')->with('success', 'Transaksi berhasil diperbarui.');
+}
 
-        \Log::info('Updated transaksi:', $transaksi->toArray());
-
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('transaksis.index')->with('success', 'Transaksi berhasil diperbarui.');
-    }
 
     /**
      * Hapus transaksi.
@@ -149,8 +143,7 @@ class TransaksiController extends Controller
     // Buat transaksi peminjaman
     Transaksi::create([
         'buku_id' => $bukuId,
-        'user_id' => $userId,
-        'status_transaksi' => 'dipinjam',
+        'user_id' => $userId, 
     ]);
 
     // Ubah status buku

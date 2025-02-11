@@ -38,25 +38,25 @@ class BukuController extends Controller
      * Menyimpan buku baru ke database.
      */
     public function store(Request $request)
-    {
+    { 
+
         // Validasi input
-        $request->validate([
+        $validatedData = $request->validate([
             'judul'       => 'required|string|max:255',
             'pengarang'   => 'required|string|max:255',
             'penerbit'    => 'required|string|max:255',
-            'tahun_terbit'=> 'required|string|max:4',
+            'tahun_terbit'=> 'required|numeric|min:1000|max:' . date('Y'),
             'isbn'        => 'required|string|max:50|unique:bukus,isbn',
             'lokasi_rak'  => 'required|string|max:50',
             'status'      => 'required|in:tersedia,dipinjam',
         ]);
 
-        // Simpan ke database
-        Buku::create($request->only([
-            'judul', 'pengarang', 'penerbit', 'tahun_terbit', 'isbn', 'lokasi_rak', 'status'
-        ]));
+         // Simpan ke database
+        Buku::create($validatedData);
 
+        // Redirect ke halaman daftar buku dengan pesan sukses
         return redirect()->route('bukus.index')->with('success', 'Buku berhasil ditambahkan!');
-    }
+    }  
 
     /**
      * Menampilkan halaman edit buku.
@@ -77,7 +77,7 @@ class BukuController extends Controller
             'judul'       => 'required|string|max:255',
             'pengarang'   => 'required|string|max:255',
             'penerbit'    => 'required|string|max:255',
-            'tahun_terbit'=> 'required|string|max:4',
+            'tahun_terbit'=> 'required|numeric|min:1000|max:' . date('Y'),
             'isbn'        => 'nullable|string|max:50|unique:bukus,isbn,' . $id,
             'lokasi_rak'  => 'required|string|max:50',
             'status'      => 'required|in:tersedia,dipinjam',

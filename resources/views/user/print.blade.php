@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Peminjaman</title>
+    <title>Detail User</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,48 +51,28 @@
 </head>
 <body>
     <div class="header">
-        <h1>Detail Peminjaman Buku</h1>
+        <h1>Detail User</h1>
         <p>Perpustakaan Digital FARRA AZZURA DASGUPTA</p>
     </div>
     <div class="content">
-        <h1>Informasi Peminjaman</h1>
+        <h1>Informasi User</h1>
         <table>
              
             <tr>
-                <th>Judul Buku</th>
-                <td>{{ $transaksi->buku->judul }}</td>
+                <th>Nomor Kartu</th>
+                <td>{{ $kartu->no_kartu }}</td>
             </tr>
             <tr>
-                <th>Pengarang</th>
-                <td>{{ $transaksi->buku->pengarang }}</td>
+                <th>Nama</th>
+                <td>{{ $kartu->nama }}</td>
             </tr>
             <tr>
-                <th>Penerbit</th>
-                <td>{{ $transaksi->buku->penerbit }}</td>
+                <th>Alamat</th>
+                <td>{{ $kartu->alamat }}</td>
             </tr>
             <tr>
-                <th>ISBN</th>
-                <td>{{ $transaksi->buku->isbn }}</td>
-            </tr>
-            <tr>
-                <th>Lokasi Rak</th>
-                <td>{{ $transaksi->buku->lokasi_rak }}</td>
-            </tr>
-            <tr>
-                <th>Nama Peminjam</th>
-                <td>{{ $transaksi->kartu->nama ?? '-' }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Pinjam</th>
-                <td>{{ $transaksi->tanggal_pinjam }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Kembali</th>
-                <td>{{ $transaksi->tanggal_kembali ?? '-' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ ucfirst($transaksi->status) }}</td>
+                <th>Nomor Handphone</th>
+                <td>{{ $kartu->no_hp }}</td>
             </tr>
         </table>
     </div>

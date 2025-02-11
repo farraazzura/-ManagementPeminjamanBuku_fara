@@ -107,21 +107,35 @@
 
     <div class="form-container">
         <h1>Edit User</h1>
-        <form action="{{ route('users.update', $user->id) }}" method="POST">
+        <form action="{{ route('users.update', $kartu->id) }}" method="POST">
             @csrf
             @method('PUT') 
 
             <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username"
-                    value="{{ old('username', $user->username ?? '') }}" 
+                <label for="no_kartu">No Kartu:</label>
+                <input type="number" name="no_kartu" id="no_kartu"
+                    value="{{ old('no_kartu', $kartu->no_kartu ?? '') }}" 
                     required>
             </div> 
 
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="text" name="password" id="password"
-                    value="{{ old('password', $user->password ?? '') }}" 
+                <label for="nama">Nama:</label>
+                <input type="text" name="nama" id="nama"
+                    value="{{ old('nama', $kartu->nama ?? '') }}" 
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="alamat">Alamat:</label>
+                <input type="text" name="alamat" id="alamat"
+                    value="{{ old('alamat', $kartu->alamat ?? '') }}" 
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="no_hp">No. HP:</label>
+                <input type="number" name="no_hp" id="no_hp"
+                    value="{{ old('no_hp', $kartu->no_hp ?? '') }}" 
                     required>
             </div>
 

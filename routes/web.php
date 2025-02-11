@@ -33,9 +33,9 @@ Route::get('users/print/{id}', [UserController::class, 'print'])->name('users.pr
 Route::get('bukus/print/{id}', [BukuController::class, 'print'])->name('bukus.print');
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('transaksis', TransaksiController::class);
     Route::get('transaksis/print/{id}', [TransaksiController::class, 'print'])->name('transaksis.print');
 });
+Route::resource('transaksis', TransaksiController::class);
 
 
 Route::resource('bukus', BukuController::class);

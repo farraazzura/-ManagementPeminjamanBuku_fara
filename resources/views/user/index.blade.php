@@ -209,7 +209,7 @@
     <div class="action-buttons">
       <!-- Pencarian -->
       <form action="{{ route('users.index') }}" method="GET" class="search-form">
-        <input type="text" name="search" placeholder="Cari Transaksi... (Username)" value="{{ request('search') }}">
+        <input type="text" name="search" placeholder="Cari User... (Nama)" value="{{ request('search') }}">
         <button type="submit">Cari</button>
       </form>
 
@@ -239,24 +239,29 @@
       <thead>
         <tr>
           <th>No</th>
-          <th>Username</th>
-          <th>Password</th>
+          <th>No Kartu</th>
+          <th>Nama</th>
+          <th>Alamat</th>
+          <th>No. HP</th>
           <th>Aksi</th>
         </tr>
       </thead>
       <tbody>
-        @forelse($users as $key => $user)
+        @forelse($kartus as $key => $kartu)
           <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ $user->username }}</td>
-            <td>{{ $user->password }}</td>
+            <td>{{ $kartu->no_kartu }}</td>
+            <td>{{ $kartu->nama }}</td>
+            <td>{{ $kartu->alamat }}</td>
+            <td>{{ $kartu->no_hp }}</td>
             <td class="actions">
-              <a href="{{ route('users.edit', $user->id) }}"><button class="edit" type="button">Edit</button></a>
-              <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+              <a href="{{ route('users.edit', $kartu->id) }}"><button class="edit" type="button">Edit</button></a>
+              <form action="{{ route('users.destroy', $kartu->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="delete" onclick="return confirm('Yakin ingin menghapus user ini?')">Hapus</button>
               </form>
+              <a href="{{ route('users.print', $kartu->id) }}"><button class="print" type="button">Cetak</button></a>
             </td>
           </tr>
         @empty

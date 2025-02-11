@@ -126,7 +126,7 @@
 
             <div class="form-group">
                 <label for="tahun_terbit">Tahun Terbit:</label>
-                <input type="string" name="tahun_terbit" id="tahun_terbit" required>
+                <input type="number" name="tahun_terbit" id="tahun_terbit" required>
             </div>
 
             <div class="form-group">

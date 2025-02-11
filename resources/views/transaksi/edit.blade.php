@@ -116,11 +116,18 @@
             </div>
 
             <div class="form-group">
-                <label for="nama_peminjam">Nama Peminjam:</label>
-                <input type="text" name="nama_peminjam" id="nama_peminjam"
-                    value="{{ old('nama_peminjam', $transaksi->kartu->user->username ?? '') }}" 
-                    readonly>
-            </div>         
+                <label for="id_kartu">Nama Peminjam:</label>
+                <select name="id_kartu" id="id_kartu" required>
+                    <option value="" disabled>-- Pilih Peminjam --</option>
+                    @foreach($kartus as $kartu)
+                        <option value="{{ $kartu->id }}" 
+                            @if($kartu->id == $transaksi->id_kartu) selected @endif>
+                            {{ $kartu->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+                     
 
             <div class="form-group">
                 <label for="tanggal_pinjam">Tanggal Pinjam:</label>

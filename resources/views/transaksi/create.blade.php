@@ -123,8 +123,8 @@
                 <label for="id_kartu">Pilih Peminjam:</label>
                 <select name="id_kartu" id="id_kartu" required>
                     <option value="" disabled selected>-- Pilih Kartu --</option>
-                    @foreach($kartu as $kartus)
-                        <option value="{{ $kartus->id }}">{{ $kartus->no_kartu }} - {{ $kartus->user->username ?? ''}}</option>
+                    @foreach($kartu as $tr)
+                        <option value="{{ $tr->id }}"> {{ $tr->nama ?? ''}}</option>
                     @endforeach
                 </select>
             </div>

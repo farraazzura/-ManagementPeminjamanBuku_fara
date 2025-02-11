@@ -251,7 +251,7 @@
           <tr>
             <td>{{ $key + 1 }}</td>
             <td>{{ $transaksi->buku->judul }}</td>
-            <td>{{ $transaksi->kartu->user->username ?? 'Username tidak ada' }}</td>
+            <td>{{ $transaksi->kartu->nama  }}</td>
             <td>{{ $transaksi->tanggal_pinjam }}</td>
             <td>{{ $transaksi->tanggal_kembali ?? '-' }}</td>
             <td>{{ $transaksi->status }}</td>
